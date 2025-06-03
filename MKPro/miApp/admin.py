@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Products, Inventory  # Importa el modelo de productos e inventario
 
-# Register your models here.
+# Register your models here. usuario:adangond, clave: 123
 
 class ProductsAdmin(admin.ModelAdmin):
     list_display = ('description', 'category', 'product_class', 'product_type', 'product_UM')
