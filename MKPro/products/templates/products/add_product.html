@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Agregar Producto</h2>
+
+    <!-- Mostrar mensajes de éxito o error -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Formulario de productos -->
+    <form action="{% url 'agregar_producto' %}" method="post" class="form-container">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn-save">Guardar</button>
+    </form>
+
+    <a href="{% url 'listado_productos' %}" class="btn-back">Ver lista de productos</a>
+
+{% endblock %}
