@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'products',
+    'crispy_forms',
+    'crispy_tailwind',
+    'users',
+    'core',
+    'products'
 ]
 
 MIDDLEWARE = [
@@ -101,11 +105,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-co'
 
 TIME_ZONE = 'UTC'
 
@@ -133,3 +138,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "MKPro", "Logos")
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS= 'tailwind'
+
+CRISPY_TEMPLATE_PACK = 'tailwind'
+
+LOGIN_URL = 'login'
+
+LOGIN_REDIRECT_URL = 'index'

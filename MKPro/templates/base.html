@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,46 +6,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}MKPro{% endblock %}</title>
 
-  {% load static %}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
   <link rel="stylesheet" href="{% static 'style.css' %}">
   <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
   <script src="{% static 'main.js' %}" defer></script>
 </head>
 <body class="flex flex-col min-h-screen bg-white">
-  <!-- Header usando todo el ancho -->
+  <!-- Header -->
   <header class="bg-pink-600">
-    <!-- Usamos un contenedor sin márgenes horizontales para ocupar todo el ancho -->
-    <div class="flex justify-between items-center py-4">
-      <!-- El enlace "MKPro" se empuja al borde izquierdo con padding a la izquierda -->
-      <a href="{% url 'index' %}" class="text-white text-3xl font-bold pl-4">
-        MKPro
-      </a>
-      <nav>
-        <ul class="flex space-x-6 pr-4">
-          <li>
-            <a href="{% url 'index' %}" class="text-white font-bold transition transform hover:scale-110 hover:text-pink-200">
-              Inicio
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'listado_productos' %}" class="text-white font-bold transition transform hover:scale-110 hover:text-pink-200">
-              Productos
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'admin:index' %}" class="text-white font-bold transition transform hover:scale-110 hover:text-pink-200">
-              Admin
-            </a>
-          </li>
+    <div class="flex items-center justify-between py-4">
+      <!-- Parte izquierda: Logo -->
+      <div class="pl-4">
+        <a href="{% url 'index' %}" class="text-white text-3xl font-bold">
+          MKPro
+        </a>
+      </div>
+      <!-- Parte central: Opciones centradas (Inicio, Productos, Admin) -->
+      <div class="flex flex-1 justify-center">
+        <nav>
+          <ul class="flex space-x-6">
+            <li>
+              <a href="{% url 'index' %}" class="text-white font-bold transition transform hover:scale-110 hover:text-pink-200">
+                Inicio
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'listado_productos' %}" class="text-white font-bold transition transform hover:scale-110 hover:text-pink-200">
+                Productos
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'admin:index' %}" class="text-white font-bold transition transform hover:scale-110 hover:text-pink-200">
+                Admin
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <!-- Parte derecha: Autenticación -->
+      <div class="pr-4">
+        <ul class="flex space-x-6 items-center">
+          {% if user.is_authenticated %}
+            <li>
+              <span class="text-white font-bold">Bienvenido, {{ user.username }}</span>
+            </li>
+            <li>
+              <a href="{% url 'profile' %}?next={{ request.path|urlencode }}" class="text-white font-bold transition transform hover:scale-110 hover:text-pink-200">
+                Mi Perfil
+              </a>
+            </li>
+            <li>
+              <form action="{% url 'logout' %}" method="post" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="text-white font-bold transition transform hover:scale-110 hover:text-pink-200">
+                  Cerrar sesión
+                </button>
+              </form>
+            </li>
+          {% else %}
+            <li>
+              <a href="{% url 'login' %}" class="text-white font-bold transition transform hover:scale-110 hover:text-pink-200">
+                Iniciar sesión
+              </a>
+            </li>
+          {% endif %}
         </ul>
-      </nav>
+      </div>
     </div>
   </header>
 
-  <!-- Contenido principal (opcional: también puedes eliminar el contenedor si deseas ancho completo en todo) -->
-  <main class="flex-grow">
-    {% block content %}{% endblock %}
+  <!-- Contenido principal -->
+  <main class="flex flex-col flex-grow">
+    {% block content %}
+    {% endblock %}
   </main>
 
   <!-- Footer fijo -->
